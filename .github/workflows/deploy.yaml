@@ -1,0 +1,53 @@
+name: Deploy to S3 (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: true
+        default: "prod"
+      invalidate_cache:
+        description: "Invalidate CloudFront cache?"
+        required: true
+        default: "true"
+
+env:
+  AWS_REGION: ap-south-1
+  S3_BUCKET: education-conclave-ag
+  CLOUDFRONT_DISTRIBUTION_ID: E3HJ306130QENT
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::498472303817:role/Githubs3CDN-limited-Access
+          role-session-name: GitHub_to_AWS_via_OIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Verify identity
+        run: aws sts get-caller-identity
+
+      - name: Sync files to S3
+        run: |
+          aws s3 sync . s3://${{ env.S3_BUCKET }} \
+            --delete \
+            --exclude ".git/*" \
+            --exclude ".github/*"
+
+      - name: Invalidate CloudFront (optional)
+        if: ${{ github.event.inputs.invalidate_cache == 'true' }}
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
