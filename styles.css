@@ -5451,6 +5451,137 @@ main > section.animate-section:nth-of-type(6) {
   }
 }
 
+/* Reels nav — glass pill + glow (matches award categories emphasis) */
+.menu-link-reels-glass {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 16px !important;
+  margin: -1px 0;
+  border-radius: 999px;
+  color: var(--brand) !important;
+  font-weight: 700;
+  border: 1px solid rgba(227, 24, 55, 0.32) !important;
+  border-bottom: 1px solid rgba(227, 24, 55, 0.32) !important;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    0 0 10px rgba(227, 24, 55, 0.22),
+    0 4px 16px rgba(15, 23, 42, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -1px 0 rgba(227, 24, 55, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-shadow: 0 0 8px rgba(227, 24, 55, 0.34), 0 0 14px rgba(245, 180, 50, 0.24);
+  overflow: hidden;
+  isolation: isolate;
+  animation: menuReelsGlow 2.1s ease-in-out infinite alternate;
+}
+
+.menu-link-reels-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(227, 24, 55, 0.14) 0%,
+    rgba(255, 255, 255, 0.55) 42%,
+    rgba(201, 162, 39, 0.12) 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.menu-link-reels-glass::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -75%;
+  width: 55%;
+  height: 220%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.85) 48%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  z-index: 1;
+  pointer-events: none;
+  animation: menuReelsGlassShine 3.8s ease-in-out infinite;
+}
+
+.menu-link-reels-glass span {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes menuReelsGlassShine {
+  0%,
+  72%,
+  100% {
+    left: -75%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  38% {
+    left: 125%;
+    opacity: 0.9;
+  }
+  55% {
+    opacity: 0;
+  }
+}
+
+@keyframes menuReelsGlow {
+  from {
+    text-shadow: 0 0 6px rgba(227, 24, 55, 0.26), 0 0 10px rgba(245, 180, 50, 0.2);
+    box-shadow:
+      0 0 8px rgba(227, 24, 55, 0.18),
+      0 4px 14px rgba(15, 23, 42, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  }
+  to {
+    text-shadow: 0 0 11px rgba(227, 24, 55, 0.48), 0 0 20px rgba(245, 180, 50, 0.34);
+    box-shadow:
+      0 0 16px rgba(227, 24, 55, 0.32),
+      0 6px 18px rgba(15, 23, 42, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-link-reels-glass:hover {
+    color: var(--brand) !important;
+    border-color: rgba(227, 24, 55, 0.55) !important;
+    text-shadow: 0 0 12px rgba(227, 24, 55, 0.5), 0 0 22px rgba(245, 180, 50, 0.38);
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 900px) {
+  .site-header .menu a.menu-link-reels-glass {
+    width: fit-content;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(227, 24, 55, 0.32) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-link-reels-glass {
+    animation: none;
+  }
+
+  .menu-link-reels-glass::after {
+    animation: none;
+    display: none;
+  }
+}
+
 /* Key Highlights redesign */
 .highlights {
   position: relative;
